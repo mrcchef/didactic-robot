@@ -16,9 +16,14 @@ const app = express();
 app.use(cors());  // Enable CORS for cross-origin requests
 app.use(bodyParser.json());  // Parse incoming JSON payloads
 app.use(express.static('public'));
-const authRoute=require('./routes/authRoute');
 
+// auth route
+const authRoute=require('./routes/authRoute');
 app.use('/api',authRoute);
+
+// admin route
+const adminRoute=require('./routes/adminRoute');
+app.use('/api/admin',adminRoute);
 // Connect to MongoDB
 connectDB();
 

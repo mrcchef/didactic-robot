@@ -18,7 +18,7 @@ const registerUser = async (req, res) => {
         const {name,email,password,}=req.body;
         const isExistUser = await User.findOne({email});
 
-        if(!isExistUser){
+        if(isExistUser){
             return res.status(400).json({ 
                 status: false,
                 msg:'Email already exist'
@@ -100,7 +100,28 @@ const loginUser = async (req, res) => {
         });
     }
 }
+
+const getProfile=async(req,res)=>{
+    try{
+
+        const user_id=req.user._id;
+        const userData=await User.findOne({_id: user_id});
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Profile Data',
+            data: userData
+        });
+    }
+    catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getProfile
 }
