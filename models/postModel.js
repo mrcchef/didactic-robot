@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 
-const userSchema=new mongoose.Schema({
+const postSchema=new mongoose.Schema({
     title:{
         type:String,
         required:true
@@ -9,10 +9,11 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
-    categories:{
-        type:Array,
-        require:true
-    },
+    categories:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Category',
+        require:false
+    }],
     
 }); 
 

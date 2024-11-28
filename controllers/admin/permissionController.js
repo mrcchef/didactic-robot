@@ -5,7 +5,7 @@ const addPermission = async(req,res)=>{
     try{
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(200).json({ 
+            return res.status(400).json({ 
                 status: false,
                 msg:'Errors',
                 errors:errors.array()
@@ -14,7 +14,12 @@ const addPermission = async(req,res)=>{
 
         const { permission_name} = req.body;
 
-        const isExists = await Permission.findOne({permission_name : permission_name });
+        const isExists = await Permission.findOne({
+            permission_name:{
+                $regex:permission_name,
+                $options:'i'
+            }
+        });
         if(isExists){
             return res.status(400).json({
                 success: false,
@@ -23,7 +28,7 @@ const addPermission = async(req,res)=>{
         }
 
         var obj={
-            permission_name :permission_name
+            permission_name
         }
  
         if(req.body.default){
@@ -73,7 +78,7 @@ const deletePermission=async(req,res) =>{
         
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(200).json({ 
+            return res.status(400).json({ 
                 status: false,
                 msg:'Errors',
                 errors:errors.array()
@@ -103,7 +108,7 @@ const updatePermission = async(req,res)=>{
     try{
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(200).json({ 
+            return res.status(400).json({ 
                 status: false,
                 msg:'Errors',
                 errors:errors.array()
@@ -123,7 +128,11 @@ const updatePermission = async(req,res)=>{
 
         const isNameAssigned = await Permission.findOne({
             _id:{$ne: id},
-            permission_name : permission_name });
+            permission_name:{
+                $regex:permission_name,
+                $options:'i'
+            } 
+         });
         
         if(isNameAssigned){
             return res.status(400).json({

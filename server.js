@@ -24,6 +24,11 @@ app.use('/api',authRoute);
 // admin route
 const adminRoute=require('./routes/adminRoute');
 app.use('/api/admin',adminRoute);
+
+// common route
+const commonRoute=require('./routes/commonRoute');
+app.use('/api',commonRoute);
+
 // Connect to MongoDB
 connectDB();
 
